@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ir_tag_detector</name>
+  <version>0.1.0</version>
+  <description>The IR Tag Detector for Racecars</description>
+  <license>UNRELEASED</license>
+
+  <maintainer email="yskim@cs.uw.edu">Youngsun Kim</maintainer>
+  <author email="yskim@cs.uw.edu">Youngsun Kim</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>python</depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+</package>
