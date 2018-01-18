@@ -1,4 +1,4 @@
-# ir_tag_detector
+# Racecar IR Tag Detector
 The IR Tag Detector for Racecars
 
 
