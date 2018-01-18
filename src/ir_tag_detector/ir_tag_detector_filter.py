@@ -2,37 +2,21 @@
 
 import numpy as np
 import os
-import rospy
 import matplotlib.pyplot as plt
 import cv2
 
-from sensor_msgs.msg import Image as ImageMsg
-from cv_bridge import CvBridge
 from PIL import Image as PILImage
 
+from ir_tag_detector_base import IRTagDetectorBase
 
-class IRTagDetector:
+
+class IRTagDetectorFilter(IRTagDetectorBase):
     def __init__(self, topic_name='/camera/ir/image_raw'):
-        self.title = 'ir_tag_detector'
+        super(IRTagDetectorFilter, self).__init__()
 
-        self.ir_msg = None
-        self.cvbridge = CvBridge()
+        self.title = 'ir_tag_detector_filter'
 
         # self.init_ros_node(topic_name)
-
-    def sensor_image_callback(self, ros_data):
-        self.ir_msg = self.cvbridge.imgmsg_to_cv2(ros_data, ros_data.encoding)
-
-    def init_ros_node(self, topic_name):
-        rospy.init_node(self.title)
-        rospy.Subscriber(
-            topic_name, ImageMsg,
-            self.sensor_image_callback, queue_size=1)
-        print('[IRTagDetector] Subscribed to %s' % topic_name)
-
-    def load_test_image(self, filename):
-        img = PILImage.open(filename)
-        self.ir_msg = np.array(img)
 
     def detect(self):
         if self.ir_msg is None:
@@ -48,9 +32,9 @@ class IRTagDetector:
 
 
 def test():
-    print('Test IRTagDetector')
+    print('Test IRTagDetectorFilter')
 
-    detector = IRTagDetector()
+    detector = IRTagDetectorFilter()
 
     save_as_figure = True
     save_dir = 'rst'

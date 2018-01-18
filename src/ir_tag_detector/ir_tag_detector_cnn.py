@@ -2,27 +2,24 @@
 
 import numpy as np
 import os
-import rospy
 import tensorflow as tf
 
-from sensor_msgs.msg import Image as ImageMsg
-from cv_bridge import CvBridge
 from PIL import Image as PILImage
 
+from ir_tag_detector_base import IRTagDetectorBase
 from utils import tf_utils
 
 
-class IRTagDetectorCNN:
+class IRTagDetectorCNN(IRTagDetectorBase):
     def __init__(self, topic_name='/camera/ir/image_raw'):
-        self.title = 'ir_tag_detector_cnn'
+        super(IRTagDetectorCNN, self).__init__()
 
-        self.ir_msg = None
-        self.cvbridge = CvBridge()
+        self.title = 'ir_tag_detector_cnn'
 
         self.data_ir = list()
         self.data_mask = list()
 
-        self.feature_size = 1024
+        self.feature_size = 4096
         self.batch_size = 1
         self.lr = 1e-4
         self.epoches = 100
@@ -33,16 +30,6 @@ class IRTagDetectorCNN:
         self.init_tf_session()
 
         # self.init_ros_node(topic_name)
-
-    def sensor_image_callback(self, ros_data):
-        self.ir_msg = self.cvbridge.imgmsg_to_cv2(ros_data, ros_data.encoding)
-
-    def init_ros_node(self, topic_name):
-        rospy.init_node(self.title)
-        rospy.Subscriber(
-            topic_name, ImageMsg,
-            self.sensor_image_callback, queue_size=1)
-        print('[IRTagDetector] Subscribed to %s' % topic_name)
 
     def load_training_data(self, base_dir):
         print('load_training_data')
@@ -55,11 +42,6 @@ class IRTagDetectorCNN:
 
             self.data_ir.append(np.array(img_ir)[:, :, None])
             self.data_mask.append(np.array(img_mask)[:, :, None])
-
-    def load_test_image(self, filename):
-        img = PILImage.open(filename)
-        # img = img.resize(self.img_size, PILImage.ANTIALIAS)
-        self.ir_msg = np.array(img)
 
     def init_tf_session(self):
         print('[IRTagDetector] init tf session')
