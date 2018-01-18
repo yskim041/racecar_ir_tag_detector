@@ -11,6 +11,8 @@ Tested with
 - Pillow
 - ROS Indigo
 
+Check this repo if you want to install Tensorflow on the Jetson board:
+https://github.com/jetsonhacks/installTensorFlowTX2
 
 ### IR Tag Detectors
 
