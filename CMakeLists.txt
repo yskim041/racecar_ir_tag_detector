@@ -8,7 +8,7 @@ catkin_python_setup()
 install(
     PROGRAMS
         image_collector.py
-        ir_tag_detector.py
+        ir_tag_detector_filter.py
         ir_tag_detector_cnn.py
     DESTINATION
         "${CATKIN_PACKAGE_BIN_DESTINATION}"
